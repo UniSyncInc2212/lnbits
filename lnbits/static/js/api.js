@@ -39,7 +39,7 @@ window._lnbitsApi = {
     }
     return this.request('post', '/api/v1/payments', wallet.inkey, data)
   },
-  payInvoice(wallet, bolt11, internalMemo = null) {
+  payInvoice(wallet, bolt11, internalMemo = null, amount = null) {
     const data = {
       out: true,
       bolt11: bolt11
@@ -48,6 +48,10 @@ window._lnbitsApi = {
       data.extra = {
         internal_memo: String(internalMemo)
       }
+    }
+    if (amount != null && amount !== '') {
+      data.amount = amount
+      data.unit = 'sat'
     }
     return this.request('post', '/api/v1/payments', wallet.adminkey, data)
   },
@@ -181,10 +185,11 @@ window._lnbitsApi = {
   getPayment(wallet, paymentHash) {
     return this.request('get', '/api/v1/payments/' + paymentHash, wallet.inkey)
   },
-  updateBalance(credit, wallet_id) {
+  updateBalance(credit, wallet_id, memo = null) {
     return this.request('PUT', '/users/api/v1/balance', null, {
       amount: credit,
-      id: wallet_id
+      id: wallet_id,
+      memo: memo
     })
   },
   getCurrencies() {
