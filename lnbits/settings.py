@@ -554,10 +554,6 @@ class LNbitsFundingSource(LNbitsSettings):
     lnbits_invoice_key: str | None = Field(default=None)
 
 
-class ClicheFundingSource(LNbitsSettings):
-    cliche_endpoint: str | None = Field(default=None)
-
-
 class CLNRestFundingSource(LNbitsSettings):
     clnrest_url: str | None = Field(default=None)
     clnrest_ca: str | None = Field(default=None)
@@ -795,7 +791,6 @@ class LightningSettings(LNbitsSettings):
 class FundingSourcesSettings(
     FakeWalletFundingSource,
     LNbitsFundingSource,
-    ClicheFundingSource,
     CLNRestFundingSource,
     CoreLightningFundingSource,
     CoreLightningRestFundingSource,
@@ -822,6 +817,7 @@ class FundingSourcesSettings(
     # How long to wait for the payment to be confirmed before returning a pending status
     # It will not fail the payment, it will make it return pending after the timeout
     lnbits_funding_source_pay_invoice_wait_seconds: int = Field(default=5, ge=0)
+    lnbits_funding_source_pay_offer_wait_seconds: int = Field(default=20, ge=0)
     lnbits_funding_source_pending_interval_seconds: int = Field(default=1800, ge=0)
     funding_source_max_retries: int = Field(default=4, ge=0)
 
